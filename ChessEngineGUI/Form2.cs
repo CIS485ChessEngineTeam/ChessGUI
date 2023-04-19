@@ -23,6 +23,7 @@ namespace ChessEngineGUI
         private List<string> history;
         private int movetime;
         private string score;
+        private bool engineGoesFirst = false;
 
         public Form2(string chessEnginePath, Boolean againstEngine, int movetime)
         {
@@ -133,6 +134,7 @@ namespace ChessEngineGUI
             Graphics g = e.Graphics;
             g.DrawImage(defaultImage, 0, 0);
             DrawBoardState(g);
+            scoreText.Text = "Score: " + score;
         }
 
 
@@ -140,12 +142,6 @@ namespace ChessEngineGUI
         private void SignalRepaint()
         {
             boardPicture.Invalidate();
-            double value;
-            if (Double.TryParse(score, out value))
-            {
-                value = Math.Round(value * 10) / 10;
-                scoreText.Text = "Score: " + value;
-            }
             //boardPicture.Image = (Image)defaultImage.Clone();
             //Graphics g = Graphics.FromImage(boardPicture.Image);
             //drawBoardState(g, boardPicture.Image);
@@ -364,10 +360,7 @@ namespace ChessEngineGUI
         {
             if (!waitingOnEngine)
             {
-                selected = false;
-                game = GameFactory.Create("rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1");
-                history.Clear();
-                SignalRepaint();
+                Reset();
             }
         }
 
@@ -379,6 +372,25 @@ namespace ChessEngineGUI
                 game = GameFactory.Create(history.Last());
                 history.RemoveAt(history.Count() - 1);
                 SignalRepaint();
+            }
+        }
+
+        private void changeSidesButton_Click(object sender, EventArgs e)
+        {
+            engineGoesFirst = !engineGoesFirst;
+            Reset();
+
+        }
+
+        private void Reset()
+        {
+            selected = false;
+            game = GameFactory.Create("rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1");
+            history.Clear();
+            SignalRepaint();
+            if (engineGoesFirst)
+            {
+                RunEngine();
             }
         }
     }

@@ -37,6 +37,7 @@
             resetButton = new Button();
             undoButton = new Button();
             boardPicture = new PictureBox();
+            changeSidesButton = new Button();
             panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)boardPicture).BeginInit();
             SuspendLayout();
@@ -115,7 +116,7 @@
             resetButton.FlatStyle = FlatStyle.Flat;
             resetButton.Font = new Font("Microsoft Sans Serif", 14.25F, FontStyle.Regular, GraphicsUnit.Point);
             resetButton.ForeColor = Color.FromArgb(158, 63, 80);
-            resetButton.Location = new Point(360, 718);
+            resetButton.Location = new Point(274, 718);
             resetButton.Margin = new Padding(4, 3, 4, 3);
             resetButton.Name = "resetButton";
             resetButton.Size = new Size(148, 46);
@@ -131,7 +132,7 @@
             undoButton.FlatStyle = FlatStyle.Flat;
             undoButton.Font = new Font("Microsoft Sans Serif", 14.25F, FontStyle.Regular, GraphicsUnit.Point);
             undoButton.ForeColor = Color.FromArgb(158, 63, 80);
-            undoButton.Location = new Point(194, 718);
+            undoButton.Location = new Point(108, 718);
             undoButton.Margin = new Padding(4, 3, 4, 3);
             undoButton.Name = "undoButton";
             undoButton.Size = new Size(148, 46);
@@ -149,12 +150,29 @@
             boardPicture.TabIndex = 12;
             boardPicture.TabStop = false;
             // 
+            // changeSidesButton
+            // 
+            changeSidesButton.BackColor = Color.FromArgb(238, 235, 193);
+            changeSidesButton.FlatAppearance.BorderColor = Color.FromArgb(238, 235, 193);
+            changeSidesButton.FlatStyle = FlatStyle.Flat;
+            changeSidesButton.Font = new Font("Microsoft Sans Serif", 14.25F, FontStyle.Regular, GraphicsUnit.Point);
+            changeSidesButton.ForeColor = Color.FromArgb(158, 63, 80);
+            changeSidesButton.Location = new Point(440, 718);
+            changeSidesButton.Margin = new Padding(4, 3, 4, 3);
+            changeSidesButton.Name = "changeSidesButton";
+            changeSidesButton.Size = new Size(148, 46);
+            changeSidesButton.TabIndex = 13;
+            changeSidesButton.Text = "Swap Sides";
+            changeSidesButton.UseVisualStyleBackColor = false;
+            changeSidesButton.Click += changeSidesButton_Click;
+            // 
             // Form2
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.FromArgb(158, 63, 80);
             ClientSize = new Size(695, 808);
+            Controls.Add(changeSidesButton);
             Controls.Add(boardPicture);
             Controls.Add(resetButton);
             Controls.Add(undoButton);
@@ -181,5 +199,6 @@
         private System.Windows.Forms.Button resetButton;
         private System.Windows.Forms.Button undoButton;
         private PictureBox boardPicture;
+        private Button changeSidesButton;
     }
 }
