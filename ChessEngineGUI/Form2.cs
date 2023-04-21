@@ -1,5 +1,6 @@
 ﻿using Rudzoft.ChessLib;
 using Rudzoft.ChessLib.Factories;
+using Rudzoft.ChessLib.Fen;
 using Rudzoft.ChessLib.MoveGeneration;
 using Rudzoft.ChessLib.Notation.Notations;
 using Rudzoft.ChessLib.Protocol.UCI;
@@ -47,7 +48,6 @@ namespace ChessEngineGUI
                 engine.Start();
                 engine.BeginOutputReadLine();
                 engine.BeginErrorReadLine();
-                //engine.WaitForExit();
             }
 
             game = GameFactory.Create("rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1");
@@ -134,7 +134,16 @@ namespace ChessEngineGUI
             Graphics g = e.Graphics;
             g.DrawImage(defaultImage, 0, 0);
             DrawBoardState(g);
-            scoreText.Text = "Score: " + score;
+            double eval;
+            if (Double.TryParse(score, out eval))
+            {
+                eval = Math.Round(eval * 100) / 100;
+                scoreText.Text = "Score: " + eval;
+            }
+            else
+            {
+                scoreText.Text = "Score: N/A";
+            }
         }
 
 
@@ -142,9 +151,6 @@ namespace ChessEngineGUI
         private void SignalRepaint()
         {
             boardPicture.Invalidate();
-            //boardPicture.Image = (Image)defaultImage.Clone();
-            //Graphics g = Graphics.FromImage(boardPicture.Image);
-            //drawBoardState(g, boardPicture.Image);
 
         }
 
@@ -312,6 +318,7 @@ namespace ChessEngineGUI
                         break;
                     }
                 }
+                waitingOnEngine = false;
             }
         }
 
@@ -366,12 +373,21 @@ namespace ChessEngineGUI
 
         private void undoButton_Click(object sender, EventArgs e)
         {
-            if (!waitingOnEngine && history.Count() > 0)
+            if (history.Count() > 0)
             {
                 selected = false;
                 game = GameFactory.Create(history.Last());
                 history.RemoveAt(history.Count() - 1);
                 SignalRepaint();
+
+                if (!engineGoesFirst && game.Pos.SideToMove == Player.Black)
+                {
+                    RunEngine();
+                }
+                else if (engineGoesFirst && game.Pos.SideToMove == Player.White)
+                {
+                    RunEngine();
+                }
             }
         }
 

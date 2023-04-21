@@ -51,9 +51,8 @@ namespace ChessEngineGUI
             {
                 form1.chessEnginePath = file.FileName;
                 form1.againstEngine = true;
+                this.Close();
             }
-            //Form5 f5 = new Form5();
-            //f5.Show();
 
         }
 
